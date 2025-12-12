@@ -122,7 +122,11 @@ export async function loadAllResumes(
       vacancyConfig ? JSON.stringify({ name: vacancyConfig.name, id: vacancyConfig.id }) : "none",
     )
 
-    if (vacancyConfig) {
+    // Check if vacancyConfig is valid (has at least a name or ID to be useful for saving)
+    // Sometimes vacancyConfig might be a default object with empty strings, which is truthy but not useful
+    const isValidVacancyConfig = vacancyConfig && (vacancyConfig.name || vacancyConfig.id)
+
+    if (isValidVacancyConfig) {
       onProgress({
         loaded: scoredCandidates.length,
         total: scoredCandidates.length,
@@ -139,7 +143,7 @@ export async function loadAllResumes(
         console.log("[v0] Creating/finding vacancy:", vacancyConfig.name || "No name")
         console.log("[v0] Vacancy config full:", JSON.stringify(vacancyConfig))
 
-        if (vacancyConfig.name || vacancyConfig.title) {
+        if (vacancyConfig.name) {
           const vacancyResponse = await fetch("/api/db/vacancies", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

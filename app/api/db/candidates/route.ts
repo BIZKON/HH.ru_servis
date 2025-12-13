@@ -124,9 +124,16 @@ export async function GET() {
       .from(candidates)
       .where(eq(candidates.source, "hh.ru"))
       .orderBy(desc(candidates.createdAt))
-      .limit(100)
+      .limit(500)
 
-    return NextResponse.json({ candidates: candidatesList })
+    // Parse JSON fields
+    const parsedCandidates = candidatesList.map((c) => ({
+      ...c,
+      skills: c.skills ? JSON.parse(c.skills) : [],
+      tags: c.tags ? JSON.parse(c.tags) : [],
+    }))
+
+    return NextResponse.json({ candidates: parsedCandidates })
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Ошибка загрузки" }, { status: 500 })
   }

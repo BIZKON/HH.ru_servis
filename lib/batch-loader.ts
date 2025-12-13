@@ -122,6 +122,7 @@ export async function loadAllResumes(
       vacancyConfig ? JSON.stringify({ name: vacancyConfig.name, id: vacancyConfig.id }) : "none",
     )
 
+    // Сохраняем кандидатов в базу данных, даже если нет вакансии
     if (vacancyConfig) {
       onProgress({
         loaded: scoredCandidates.length,
@@ -139,7 +140,7 @@ export async function loadAllResumes(
         console.log("[v0] Creating/finding vacancy:", vacancyConfig.name || "No name")
         console.log("[v0] Vacancy config full:", JSON.stringify(vacancyConfig))
 
-        if (vacancyConfig.name || vacancyConfig.title) {
+        if (vacancyConfig.name) {
           const vacancyResponse = await fetch("/api/db/vacancies", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -162,15 +163,16 @@ export async function loadAllResumes(
 
         let searchSessionId: string | undefined
 
-        console.log("[v0] Creating search session with vacancy:", vacancyId)
+        console.log("[v0] Creating search session with vacancy:", vacancyId || "none")
 
+        // Создаем сессию поиска даже без вакансии
         const sessionResponse = await fetch("/api/db/search-sessions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             searchParams,
             candidates: scoredCandidates,
-            vacancyId,
+            vacancyId: vacancyId || undefined,
           }),
         })
 
@@ -197,7 +199,7 @@ export async function loadAllResumes(
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               candidates: batch,
-              vacancyId,
+              vacancyId: vacancyId || undefined,
               searchSessionId,
             }),
           })

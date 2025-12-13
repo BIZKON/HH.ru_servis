@@ -13,6 +13,7 @@ import { SearchHistoryButton, addToHistory } from "@/components/search-history"
 import { VacancyConfigForm, DEFAULT_VACANCY_CONFIG } from "@/components/vacancy-config"
 import { InviteDialog } from "@/components/invite-dialog"
 import { BatchProgressCard } from "@/components/batch-progress"
+import { SaveToDBButton } from "@/components/save-to-db-button"
 import { loadAllResumes, type BatchProgress } from "@/lib/batch-loader"
 import type { ScoringConfig } from "@/lib/scoring"
 import type { SearchFilters, ScoredCandidate, VacancyConfig } from "@/lib/types"
@@ -114,7 +115,7 @@ export default function HomePage() {
           }
         },
         100,
-        vacancyConfig,
+        autoSaveEnabled ? vacancyConfig : undefined,
       )
 
       setCandidates(scoredCandidates)
@@ -395,16 +396,36 @@ export default function HomePage() {
         )}
 
         {(candidates.length > 0 || isLoading) && (
-          <CandidatesList
-            candidates={candidates}
-            totalFound={totalFound}
-            currentPage={currentPage}
-            totalPages={isBatchMode ? 1 : totalPages}
-            onPageChange={handlePageChange}
-            isLoading={isLoading}
-            vacancyConfig={vacancyConfig}
-            onInvite={handleInvite}
-          />
+          <div className="space-y-4">
+            {candidates.length > 0 && !isLoading && (
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Database className="h-5 w-5 text-muted-foreground" />
+                      <div>
+                        <p className="text-sm font-medium">Найдено {candidates.length} кандидатов</p>
+                        <p className="text-xs text-muted-foreground">
+                          Сохраните их в базу данных, чтобы просматривать в любой момент
+                        </p>
+                      </div>
+                    </div>
+                    <SaveToDBButton candidates={candidates} vacancyConfig={vacancyConfig} disabled={isLoading} />
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            <CandidatesList
+              candidates={candidates}
+              totalFound={totalFound}
+              currentPage={currentPage}
+              totalPages={isBatchMode ? 1 : totalPages}
+              onPageChange={handlePageChange}
+              isLoading={isLoading}
+              vacancyConfig={vacancyConfig}
+              onInvite={handleInvite}
+            />
+          </div>
         )}
 
         {!token && candidates.length === 0 && !isLoading && (

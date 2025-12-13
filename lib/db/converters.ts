@@ -1,6 +1,6 @@
 import type { ScoredCandidate, VacancyConfig } from "@/lib/types"
 
-// Database types matching Supabase schema
+// Database types matching schema
 export interface DBCandidate {
   id?: string
   external_id: string
@@ -23,6 +23,7 @@ export interface DBCandidate {
   status?: string
   paid_access?: boolean
   notes?: string
+  tags?: string[]
 }
 
 export interface DBVacancy {
@@ -249,3 +250,5 @@ function parseExperienceYears(experience: string): number | undefined {
   }
   return undefined
 }
+
+

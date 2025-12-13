@@ -13,20 +13,58 @@ interface TokenInputProps {
 
 export function TokenInput({ value, onChange }: TokenInputProps) {
   const [showToken, setShowToken] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
+  // Проверяем наличие токена при загрузке
   useEffect(() => {
-    const stored = sessionStorage.getItem("hh_token")
-    if (stored) {
-      onChange(stored)
+    const checkToken = async () => {
+      try {
+        const response = await fetch("/api/token")
+        if (response.ok) {
+          const data = await response.json()
+          if (data.hasToken) {
+            // Токен есть, но мы не можем его получить (безопасность)
+            // Пользователь должен ввести его заново или он уже используется на сервере
+          }
+        }
+      } catch (error) {
+        console.error("Error checking token:", error)
+      }
     }
-  }, [onChange])
+    checkToken()
+  }, [])
 
-  const handleChange = (newValue: string) => {
+  const handleChange = async (newValue: string) => {
     onChange(newValue)
-    if (newValue) {
-      sessionStorage.setItem("hh_token", newValue)
-    } else {
-      sessionStorage.removeItem("hh_token")
+
+    // Сохраняем токен на сервер при изменении
+    if (newValue && newValue.length > 10) {
+      setIsSaving(true)
+      try {
+        const response = await fetch("/api/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: newValue }),
+        })
+
+        if (!response.ok) {
+          const error = await response.json()
+          console.error("Ошибка сохранения токена:", error.error)
+        }
+      } catch (error) {
+        console.error("Ошибка сохранения токена:", error)
+      } finally {
+        setIsSaving(false)
+      }
+    } else if (!newValue) {
+      // Удаляем токен если поле очищено
+      try {
+        await fetch("/api/token", {
+          method: "DELETE",
+        })
+      } catch (error) {
+        console.error("Ошибка удаления токена:", error)
+      }
     }
   }
 
@@ -55,6 +93,7 @@ export function TokenInput({ value, onChange }: TokenInputProps) {
           onChange={(e) => handleChange(e.target.value)}
           placeholder="Введите ваш API токен"
           className="pr-10 font-mono text-sm"
+          disabled={isSaving}
         />
         <Button
           type="button"
@@ -71,7 +110,9 @@ export function TokenInput({ value, onChange }: TokenInputProps) {
           )}
         </Button>
       </div>
-      <p className="text-xs text-muted-foreground">Токен хранится только в текущей сессии браузера</p>
+      <p className="text-xs text-muted-foreground">
+        {isSaving ? "Сохранение..." : "Токен шифруется и хранится безопасно на сервере"}
+      </p>
     </div>
   )
 }

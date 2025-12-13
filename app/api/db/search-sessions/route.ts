@@ -1,7 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
-import { createDBSearchSession } from "@/lib/supabase/db"
+import { db } from "@/lib/db"
+import { searchSessions } from "@/lib/db/schema"
+import { createDBSearchSession } from "@/lib/db/converters"
 import type { ScoredCandidate } from "@/lib/types"
+import { eq, desc } from "drizzle-orm"
+import { jsonStringify } from "@/lib/db/queries/helpers"
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,17 +18,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "searchParams и candidates обязательны" }, { status: 400 })
     }
 
-    const supabase = await createClient()
     const dbSearchSession = createDBSearchSession(searchParams, candidates, vacancyId)
 
-    const { data, error } = await supabase.from("search_sessions").insert(dbSearchSession).select().single()
+    const [inserted] = await db
+      .insert(searchSessions)
+      .values({
+        ...dbSearchSession,
+        searchParams: jsonStringify(dbSearchSession.search_params),
+      })
+      .returning()
 
-    if (error) {
-      console.error("Error creating search session:", error)
-      return NextResponse.json({ error: "Ошибка создания сессии поиска", details: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ searchSession: data })
+    return NextResponse.json({ searchSession: inserted })
   } catch (error) {
     console.error("Search session API error:", error)
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 })
@@ -38,21 +41,19 @@ export async function GET(request: NextRequest) {
     const vacancyId = searchParams.get("vacancy_id")
     const limit = Number(searchParams.get("limit")) || 10
 
-    const supabase = await createClient()
-
-    let query = supabase.from("search_sessions").select("*").order("created_at", { ascending: false }).limit(limit)
+    let query = db
+      .select()
+      .from(searchSessions)
+      .orderBy(desc(searchSessions.createdAt))
+      .limit(limit)
 
     if (vacancyId) {
-      query = query.eq("vacancy_id", vacancyId)
+      query = query.where(eq(searchSessions.vacancyId, vacancyId)) as any
     }
 
-    const { data, error } = await query
+    const sessions = await query
 
-    if (error) {
-      return NextResponse.json({ error: "Ошибка получения сессий", details: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ sessions: data })
+    return NextResponse.json({ sessions })
   } catch (error) {
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 })
   }

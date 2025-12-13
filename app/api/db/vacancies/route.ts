@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
-import { vacancyConfigToDBVacancy } from "@/lib/supabase/db"
+import { db } from "@/lib/db"
+import { vacancies } from "@/lib/db/schema"
+import { vacancyConfigToDBVacancy } from "@/lib/db/converters"
 import type { VacancyConfig } from "@/lib/types"
+import { eq, desc } from "drizzle-orm"
+import { jsonStringify } from "@/lib/db/queries/helpers"
 
 export async function POST(request: Request) {
   try {
@@ -11,41 +14,42 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Название вакансии обязательно" }, { status: 400 })
     }
 
-    const supabase = await createClient()
     const dbVacancy = vacancyConfigToDBVacancy(config)
 
     // Check if vacancy already exists by external_id
     if (config.id) {
-      const { data: existing } = await supabase.from("vacancies").select("id").eq("external_id", config.id).single()
+      const [existing] = await db
+        .select({ id: vacancies.id })
+        .from(vacancies)
+        .where(eq(vacancies.externalId, config.id))
+        .limit(1)
 
       if (existing) {
         // Update existing vacancy
-        const { data, error } = await supabase
-          .from("vacancies")
-          .update({
+        const [updated] = await db
+          .update(vacancies)
+          .set({
             ...dbVacancy,
-            updated_at: new Date().toISOString(),
+            skills: jsonStringify(dbVacancy.skills),
+            updatedAt: new Date(),
           })
-          .eq("id", existing.id)
-          .select("id")
-          .single()
+          .where(eq(vacancies.id, existing.id))
+          .returning({ id: vacancies.id })
 
-        if (error) {
-          return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
-        return NextResponse.json({ success: true, id: data.id, updated: true })
+        return NextResponse.json({ success: true, id: updated.id, updated: true })
       }
     }
 
     // Insert new vacancy
-    const { data, error } = await supabase.from("vacancies").insert(dbVacancy).select("id").single()
+    const [inserted] = await db
+      .insert(vacancies)
+      .values({
+        ...dbVacancy,
+        skills: jsonStringify(dbVacancy.skills),
+      })
+      .returning({ id: vacancies.id })
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ success: true, id: data.id, created: true })
+    return NextResponse.json({ success: true, id: inserted.id, created: true })
   } catch (error) {
     console.error("Error saving vacancy:", error)
     return NextResponse.json({ error: error instanceof Error ? error.message : "Ошибка сохранения" }, { status: 500 })
@@ -54,17 +58,11 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const supabase = await createClient()
-
-    const { data, error } = await supabase
-      .from("vacancies")
-      .select("*")
-      .order("created_at", { ascending: false })
+    const data = await db
+      .select()
+      .from(vacancies)
+      .orderBy(desc(vacancies.createdAt))
       .limit(50)
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
 
     return NextResponse.json({ vacancies: data })
   } catch (error) {

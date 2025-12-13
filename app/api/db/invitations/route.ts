@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
-import { createDBInvitation } from "@/lib/supabase/db"
+import { db } from "@/lib/db"
+import { invitations, applications } from "@/lib/db/schema"
+import { createDBInvitation } from "@/lib/db/converters"
+import { eq, desc, and } from "drizzle-orm"
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,30 +12,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "applicationId, candidateId и vacancyId обязательны" }, { status: 400 })
     }
 
-    const supabase = await createClient()
     const dbInvitation = createDBInvitation(applicationId, candidateId, vacancyId, message || "", hhInvitationId)
 
     // Создаем запись о приглашении
-    const { data: invitation, error: invError } = await supabase
-      .from("invitations")
-      .insert(dbInvitation)
-      .select()
-      .single()
-
-    if (invError) {
-      console.error("Error creating invitation:", invError)
-      return NextResponse.json({ error: "Ошибка создания приглашения", details: invError.message }, { status: 500 })
-    }
+    const [invitation] = await db.insert(invitations).values(dbInvitation).returning()
 
     // Обновляем статус application
-    const { error: appError } = await supabase
-      .from("applications")
-      .update({ status: "invited", updated_at: new Date().toISOString() })
-      .eq("id", applicationId)
-
-    if (appError) {
-      console.error("Error updating application status:", appError)
-    }
+    await db
+      .update(applications)
+      .set({ status: "invited", updatedAt: new Date() })
+      .where(eq(applications.id, applicationId))
 
     return NextResponse.json({ invitation })
   } catch (error) {
@@ -48,24 +36,19 @@ export async function GET(request: NextRequest) {
     const candidateId = searchParams.get("candidate_id")
     const vacancyId = searchParams.get("vacancy_id")
 
-    const supabase = await createClient()
+    let query = db.select().from(invitations).orderBy(desc(invitations.sentAt))
 
-    let query = supabase.from("invitations").select("*").order("sent_at", { ascending: false })
-
-    if (candidateId) {
-      query = query.eq("candidate_id", candidateId)
-    }
-    if (vacancyId) {
-      query = query.eq("vacancy_id", vacancyId)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      return NextResponse.json({ error: "Ошибка получения приглашений", details: error.message }, { status: 500 })
+    if (candidateId && vacancyId) {
+      query = query.where(and(eq(invitations.candidateId, candidateId), eq(invitations.vacancyId, vacancyId))) as any
+    } else if (candidateId) {
+      query = query.where(eq(invitations.candidateId, candidateId)) as any
+    } else if (vacancyId) {
+      query = query.where(eq(invitations.vacancyId, vacancyId)) as any
     }
 
-    return NextResponse.json({ invitations: data })
+    const invitationsList = await query
+
+    return NextResponse.json({ invitations: invitationsList })
   } catch (error) {
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 })
   }

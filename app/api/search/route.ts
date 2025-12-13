@@ -1,18 +1,27 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { searchResumes, transformResumeToCandidate } from "@/lib/hh-api"
 import type { HHSearchParams } from "@/lib/types"
+import { getUserFromSession } from "@/lib/auth/session"
+import { getDecryptedToken } from "@/lib/db/queries/tokens"
 
 export async function POST(request: NextRequest) {
   try {
+    // Получаем пользователя
+    const user = await getUserFromSession()
+    if (!user) {
+      return NextResponse.json({ error: "Не авторизован" }, { status: 401 })
+    }
+
+    // Получаем токен из БД
+    const token = await getDecryptedToken(user.id)
+    if (!token) {
+      return NextResponse.json({ error: "API токен не найден. Пожалуйста, введите токен." }, { status: 400 })
+    }
+
     const body = await request.json()
-    const { token, resume_search_period, ...searchParams } = body as {
-      token: string
+    const { resume_search_period, ...searchParams } = body as {
       resume_search_period?: number
     } & HHSearchParams
-
-    if (!token) {
-      return NextResponse.json({ error: "API токен обязателен" }, { status: 400 })
-    }
 
     if (!searchParams.text) {
       return NextResponse.json({ error: "Поисковый запрос обязателен" }, { status: 400 })

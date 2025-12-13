@@ -1,24 +1,21 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createServiceClient } from "@/lib/supabase/server"
+import { db } from "@/lib/db"
+import { negotiations, activities } from "@/lib/db/schema"
+import { eq } from "drizzle-orm"
+import { jsonStringify } from "@/lib/db/queries/helpers"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
-    const supabase = await createServiceClient()
 
-    const { data, error } = await supabase
-      .from("negotiations")
-      .select(`
-        *,
-        candidate:candidates(*),
-        vacancy:vacancies(*),
-        application:applications(*)
-      `)
-      .eq("id", id)
-      .single()
+    const [data] = await db
+      .select()
+      .from(negotiations)
+      .where(eq(negotiations.id, id))
+      .limit(1)
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+    if (!data) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 })
     }
 
     return NextResponse.json(data)
@@ -31,28 +28,37 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   try {
     const { id } = await params
     const body = await request.json()
-    const supabase = await createServiceClient()
 
-    const { data, error } = await supabase
-      .from("negotiations")
-      .update({ ...body, updated_at: new Date().toISOString() })
-      .eq("id", id)
+    const [existing] = await db
       .select()
-      .single()
+      .from(negotiations)
+      .where(eq(negotiations.id, id))
+      .limit(1)
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+    if (!existing) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 })
     }
+
+    const [data] = await db
+      .update(negotiations)
+      .set({
+        ...body,
+        topics: body.topics ? jsonStringify(body.topics) : existing.topics,
+        actions: body.actions ? jsonStringify(body.actions) : existing.actions,
+        updatedAt: new Date(),
+      })
+      .where(eq(negotiations.id, id))
+      .returning()
 
     // Log activity
     if (body.state) {
-      await supabase.from("activities").insert({
-        negotiation_id: id,
-        candidate_id: data.candidate_id,
-        vacancy_id: data.vacancy_id,
-        action_type: "status_changed",
+      await db.insert(activities).values({
+        negotiationId: id,
+        candidateId: data.candidateId,
+        vacancyId: data.vacancyId,
+        actionType: "status_changed",
         title: `Статус изменен на: ${body.state}`,
-        metadata: { old_state: data.state, new_state: body.state },
+        metadata: jsonStringify({ old_state: existing.state, new_state: body.state }),
       })
     }
 

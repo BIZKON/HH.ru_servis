@@ -1,3 +1,10 @@
 {
+  "/api/auth/me/route": "app/api/auth/me/route.js",
+  "/api/crm/negotiations/route": "app/api/crm/negotiations/route.js",
+  "/api/db/applications/route": "app/api/db/applications/route.js",
+  "/api/token/route": "app/api/token/route.js",
+  "/crm/page": "app/crm/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/instruction/page": "app/instruction/page.js",
   "/page": "app/page.js"
 }

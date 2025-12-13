@@ -1,6 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
-import { createDBExport } from "@/lib/supabase/db"
+import { db } from "@/lib/db"
+import { exports } from "@/lib/db/schema"
+import { createDBExport } from "@/lib/db/converters"
+import { desc } from "drizzle-orm"
+import { jsonStringify } from "@/lib/db/queries/helpers"
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,7 +21,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "candidatesCount и fileName обязательны" }, { status: 400 })
     }
 
-    const supabase = await createClient()
     const dbExport = createDBExport(
       candidatesCount,
       fileName,
@@ -29,14 +31,15 @@ export async function POST(request: NextRequest) {
       scoreRange,
     )
 
-    const { data, error } = await supabase.from("exports").insert(dbExport).select().single()
+    const [exportRecord] = await db
+      .insert(exports)
+      .values({
+        ...dbExport,
+        appliedFilters: jsonStringify(dbExport.applied_filters),
+      })
+      .returning()
 
-    if (error) {
-      console.error("Error creating export record:", error)
-      return NextResponse.json({ error: "Ошибка записи экспорта", details: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ export: data })
+    return NextResponse.json({ export: exportRecord })
   } catch (error) {
     console.error("Export API error:", error)
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 })
@@ -48,19 +51,13 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const limit = Number(searchParams.get("limit")) || 20
 
-    const supabase = await createClient()
-
-    const { data, error } = await supabase
-      .from("exports")
-      .select("*")
-      .order("created_at", { ascending: false })
+    const exportsList = await db
+      .select()
+      .from(exports)
+      .orderBy(desc(exports.createdAt))
       .limit(limit)
 
-    if (error) {
-      return NextResponse.json({ error: "Ошибка получения экспортов", details: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json({ exports: data })
+    return NextResponse.json({ exports: exportsList })
   } catch (error) {
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 })
   }

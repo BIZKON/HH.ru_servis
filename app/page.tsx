@@ -16,7 +16,8 @@ import { BatchProgressCard } from "@/components/batch-progress"
 import { loadAllResumes, type BatchProgress } from "@/lib/batch-loader"
 import type { ScoringConfig } from "@/lib/scoring"
 import type { SearchFilters, ScoredCandidate, VacancyConfig } from "@/lib/types"
-import { Rocket, Search, Database, BookOpen, LayoutDashboard, MessagesSquare } from "lucide-react"
+import { Rocket, Search, Database, BookOpen, LayoutDashboard, MessagesSquare, User } from "lucide-react"
+import { AuthDialog } from "@/components/auth-dialog"
 import Link from "next/link"
 
 const defaultFilters: SearchFilters = {
@@ -50,6 +51,7 @@ export default function HomePage() {
   const [autoSaveEnabled, setAutoSaveEnabled] = useState(true)
   const [currentSearchSessionId, setCurrentSearchSessionId] = useState<string | undefined>()
   const [currentDbVacancyId, setCurrentDbVacancyId] = useState<string | undefined>()
+  const [isAuthDialogOpen, setIsAuthDialogOpen] = useState(false)
 
   const getScoringConfig = (): ScoringConfig => ({
     experience: {
@@ -267,10 +269,16 @@ export default function HomePage() {
               vacancyId={currentDbVacancyId}
               appliedFilters={filters}
             />
+            <Button variant="ghost" size="sm" className="gap-2" onClick={() => setIsAuthDialogOpen(true)}>
+              <User className="h-4 w-4" />
+              <span className="hidden sm:inline">Войти</span>
+            </Button>
             <ThemeToggle />
           </div>
         </div>
       </header>
+
+      <AuthDialog open={isAuthDialogOpen} onOpenChange={setIsAuthDialogOpen} />
 
       <main className="mx-auto max-w-5xl space-y-6 p-4">
         <Card>

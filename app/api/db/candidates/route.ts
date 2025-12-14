@@ -28,7 +28,7 @@ export async function POST(request: Request) {
         .from("candidates")
         .select("id")
         .eq("external_id", dbCandidate.external_id)
-        .single()
+        .maybeSingle()
 
       let candidateId: string
 
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
           existingAppQuery = existingAppQuery.eq("search_session_id", searchSessionId)
         }
 
-        const { data: existingApp } = await existingAppQuery.single()
+        const { data: existingApp } = await existingAppQuery.maybeSingle()
 
         if (!existingApp) {
           const application = createDBApplication(candidate, candidateId, vacancyId, searchSessionId)

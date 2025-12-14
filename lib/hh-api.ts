@@ -86,7 +86,12 @@ export function transformResumeToCandidate(resume: HHResume): Candidate {
       if (contact.type.id === "email" && typeof contact.value === "string") {
         email = contact.value
       }
-      if (contact.type.id === "cell" && typeof contact.value === "object") {
+      // Check for both "cell" and "phone" types, and ensure value is not null
+      if (
+        (contact.type.id === "cell" || contact.type.id === "phone") &&
+        typeof contact.value === "object" &&
+        contact.value !== null
+      ) {
         phone = `+${contact.value.country}${contact.value.city}${contact.value.number}`
       }
     }
@@ -125,6 +130,8 @@ export async function searchResumes(
   params: HHSearchParams,
 ): Promise<{ data: HHResume[]; found: number; pages: number; page: number }> {
   const searchParams = buildSearchParams(params)
+  // Add parameter to request contact information (name, phone, email)
+  searchParams.append("with_fields", "contacts")
 
   const response = await fetch(`${HH_API_BASE}/resumes?${searchParams}`, {
     headers: {

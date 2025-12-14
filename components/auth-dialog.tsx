@@ -14,7 +14,7 @@ interface AuthDialogProps {
   onAuthSuccess?: () => void
 }
 
-export function AuthDialog({ open, onOpenChange, onAuthSuccess }: AuthDialogProps) {
+function AuthDialog({ open, onOpenChange, onAuthSuccess }: AuthDialogProps) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -236,3 +236,4 @@ export function AuthDialog({ open, onOpenChange, onAuthSuccess }: AuthDialogProp
   )
 }
 
+export { AuthDialog }

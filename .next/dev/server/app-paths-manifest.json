@@ -1,17 +1,8 @@
 {
-  "/api/auth/login/route": "app/api/auth/login/route.js",
-  "/api/auth/logout/route": "app/api/auth/logout/route.js",
   "/api/auth/me/route": "app/api/auth/me/route.js",
-  "/api/auth/register/route": "app/api/auth/register/route.js",
-  "/api/crm/negotiations/route": "app/api/crm/negotiations/route.js",
   "/api/db/applications/route": "app/api/db/applications/route.js",
   "/api/db/candidates/route": "app/api/db/candidates/route.js",
-  "/api/db/exports/route": "app/api/db/exports/route.js",
-  "/api/db/search-sessions/route": "app/api/db/search-sessions/route.js",
-  "/api/search/route": "app/api/search/route.js",
   "/api/token/route": "app/api/token/route.js",
-  "/crm/page": "app/crm/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/instruction/page": "app/instruction/page.js",
   "/page": "app/page.js"
 }

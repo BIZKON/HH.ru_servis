@@ -1,128 +1,244 @@
-[00:00:01.396] Server  LOG      ✓ Ready in 979ms
-[00:00:35.267] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:00:35.267] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:00:35.267] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627157656}
-[00:00:48.592] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627171128}
-[00:00:53.158] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627175696}
-[00:00:58.374] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627180909}
-[00:01:13.321] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/instruction color: rgb(120, 120, 120) color: inherit {"dp":"/instruction","o":"http://localhost:3000/instruction","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627195858}
-[00:01:20.796] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627203331}
-[00:03:00.394] Server  LOG      ✓ Compiled in 112ms
-[00:03:01.296] Server  LOG      ✓ Compiled in 68ms
-[00:03:02.719] Server  LOG      ✓ Compiled in 159ms
-[00:09:22.072] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
-[00:09:22.072] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
-[00:09:22.072] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627684604}
-[00:10:05.002] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627727534}
-[00:10:07.505] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627730035}
-[00:10:36.869] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/instruction color: rgb(120, 120, 120) color: inherit {"dp":"/instruction","o":"http://localhost:3000/instruction","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627759399}
-[00:10:42.082] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627764611}
-[00:10:43.439] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/instruction color: rgb(120, 120, 120) color: inherit {"dp":"/instruction","o":"http://localhost:3000/instruction","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627765969}
-[00:10:49.146] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627771676}
-[00:10:50.792] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627773323}
-[00:10:58.747] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627781277}
-[00:11:00.154] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627782684}
-[00:11:07.321] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627789850}
-[00:12:40.082] Browser LOG     [v0] Starting batch load with autosave: true
-[00:12:47.231] Server  ERROR   Search session API error: SqliteError: NOT NULL constraint failed: search_sessions.search_text
-[00:12:47.235] Browser LOG     [v0] Scored candidates count: 100
-[00:12:47.235] Browser LOG     [v0] Autosave enabled: true
-[00:12:47.235] Browser LOG     [v0] Vacancy config: {"name":"","id":""}
-[00:12:47.235] Browser LOG     [v0] Creating/finding vacancy: No name
-[00:12:47.235] Browser LOG     [v0] Vacancy config full: {"id":"","name":"","city":"","salary":null,"inviteMessage":"","requiredExperience":"between1And3","requiredSkills":[],"bonusSkills":[],"salaryMin":0,"salaryMax":0}
-[00:12:47.235] Browser WARN    [v0] No vacancy name/title in config, skipping vacancy creation
-[00:12:47.235] Browser LOG     [v0] Creating search session with vacancy: undefined
-[00:12:47.371] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:47.374] Browser ERROR   [v0] Session creation failed: {"error":"Внутренняя ошибка сервера"}
-[00:12:47.374] Browser LOG     [v0] Starting to save candidates in batches of 10
-[00:12:47.374] Browser LOG     [v0] Saving batch 1 with 10 candidates
-[00:12:47.476] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:47.587] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:47.691] Browser LOG     [v0] Saving batch 2 with 10 candidates
-[00:12:47.691] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:47.809] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:47.913] Browser LOG     [v0] Saving batch 3 with 10 candidates
-[00:12:47.913] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:48.032] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:48.136] Browser LOG     [v0] Saving batch 4 with 10 candidates
-[00:12:48.136] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:48.259] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:48.363] Browser LOG     [v0] Saving batch 5 with 10 candidates
-[00:12:48.363] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:48.485] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:48.589] Browser LOG     [v0] Saving batch 6 with 10 candidates
-[00:12:48.589] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:48.707] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:48.811] Browser LOG     [v0] Saving batch 7 with 10 candidates
-[00:12:48.811] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:48.933] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:49.037] Browser LOG     [v0] Saving batch 8 with 10 candidates
-[00:12:49.037] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:49.159] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:49.263] Browser LOG     [v0] Saving batch 9 with 10 candidates
-[00:12:49.263] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:49.385] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:12:49.614] Browser LOG     [v0] Saving batch 10 with 10 candidates
-[00:12:49.614] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:12:49.614] Browser LOG     [v0] Autosave complete. Saved: 0 candidates
-[00:13:31.086] Server  ERROR   Export API error: SqliteError: NOT NULL constraint failed: exports.candidates_count
-[00:14:33.959] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765627996485}
-[00:14:41.581] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765628004109}
-[00:14:52.797] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765628015322}
-[00:16:31.389] Browser LOG     [v0] Starting batch load with autosave: true
-[00:16:36.758] Server  ERROR   Search session API error: SqliteError: NOT NULL constraint failed: search_sessions.search_text
-[00:16:36.775] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:36.878] Browser LOG     [v0] Scored candidates count: 100
-[00:16:36.878] Browser LOG     [v0] Autosave enabled: true
-[00:16:36.878] Browser LOG     [v0] Vacancy config: {"name":"","id":""}
-[00:16:36.878] Browser LOG     [v0] Creating/finding vacancy: No name
-[00:16:36.878] Browser LOG     [v0] Vacancy config full: {"id":"","name":"","city":"","salary":null,"inviteMessage":"","requiredExperience":"between1And3","requiredSkills":[],"bonusSkills":[],"salaryMin":0,"salaryMax":0}
-[00:16:36.878] Browser WARN    [v0] No vacancy name/title in config, skipping vacancy creation
-[00:16:36.878] Browser LOG     [v0] Creating search session with vacancy: undefined
-[00:16:36.878] Browser ERROR   [v0] Session creation failed: {"error":"Внутренняя ошибка сервера"}
-[00:16:36.878] Browser LOG     [v0] Starting to save candidates in batches of 10
-[00:16:36.878] Browser LOG     [v0] Saving batch 1 with 10 candidates
-[00:16:36.878] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:36.997] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:37.102] Browser LOG     [v0] Saving batch 2 with 10 candidates
-[00:16:37.102] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:37.222] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:37.326] Browser LOG     [v0] Saving batch 3 with 10 candidates
-[00:16:37.326] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:37.448] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:37.553] Browser LOG     [v0] Saving batch 4 with 10 candidates
-[00:16:37.553] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:37.678] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:37.783] Browser LOG     [v0] Saving batch 5 with 10 candidates
-[00:16:37.783] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:37.906] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:38.011] Browser LOG     [v0] Saving batch 6 with 10 candidates
-[00:16:38.011] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:38.133] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:38.238] Browser LOG     [v0] Saving batch 7 with 10 candidates
-[00:16:38.238] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:38.356] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:38.460] Browser LOG     [v0] Saving batch 8 with 10 candidates
-[00:16:38.460] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:38.583] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:38.687] Browser LOG     [v0] Saving batch 9 with 10 candidates
-[00:16:38.687] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:38.806] Server  ERROR   Error saving candidates: SqliteError: NOT NULL constraint failed: candidates.external_id
-[00:16:39.017] Browser LOG     [v0] Saving batch 10 with 10 candidates
-[00:16:39.017] Browser ERROR   [v0] Batch save failed: {"error":"NOT NULL constraint failed: candidates.external_id"}
-[00:16:39.017] Browser LOG     [v0] Autosave complete. Saved: 0 candidates
-[00:17:25.952] Server  ERROR   Export API error: SqliteError: NOT NULL constraint failed: exports.candidates_count
-[00:17:29.730] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765628172256}
-[00:17:33.068] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765628175591}
-[00:17:37.739] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/instruction color: rgb(120, 120, 120) color: inherit {"dp":"/instruction","o":"http://localhost:3000/instruction","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765628180266}
-[00:17:43.574] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765628186097}
-[00:28:11.940] Server  LOG      ✓ Compiled in 282ms
-[00:29:55.193] Server  ERROR   (node:2952) Warning: Failed to load the ES module: /Users/konstantinsyrov/ГИТХАБ /HH.ru_servis-1/.next/dev/server/chunks/ssr/[root-of-the-server]__38979753._.js. Make sure to set "type": "module" in the nearest package.json file or use the .mjs extension.
-(Use `node --trace-warnings ...` to show where the warning was created)
-[00:29:55.310] Server  ERROR    ⨯ Error: Failed to load chunk server/chunks/ssr/[root-of-the-server]__38979753._.js from runtime for chunk server/app/page.js
-[00:29:55.316] Browser ERROR   Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. {}
-[00:29:55.331] Server  ERROR   (node:2952) Warning: Failed to load the ES module: /Users/konstantinsyrov/ГИТХАБ /HH.ru_servis-1/.next/dev/server/chunks/ssr/[root-of-the-server]__38979753._.js. Make sure to set "type": "module" in the nearest package.json file or use the .mjs extension.
-[00:29:55.407] Server  ERROR    ⨯ Error: Failed to load chunk server/chunks/ssr/[root-of-the-server]__38979753._.js from runtime for chunk server/app/page.js
-[00:29:56.426] Browser ERROR   uncaughtError: Error: Failed to load chunk server/chunks/ssr/[root-of-the-server]__38979753._.js from runtime for chunk server/app/page.js
-[00:38:57.091] Server  LOG      ✓ Compiled in 228ms
-[00:41:26.730] Server  LOG      ✓ Compiled in 121ms
+[00:00:01.107] Server  LOG      ✓ Ready in 779ms
+[00:00:13.985] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:00:13.985] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:00:13.985] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765703429140}
+[00:00:32.974] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765703448128}
+[00:00:33.364] Server  ERROR    ⨯ ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:33.369] Server  ERROR    ⨯ ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+
+./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:33.490] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:33.490] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:33.937] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:33.937] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:33.937] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:33.937] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:34.040] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:34.040] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:51.396] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:51.396] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:01:03.402] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:01:03.402] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:01:19.321] Browser ERROR   ./app/api/db/candidates/route.ts:3:1
+Module not found: Can't resolve '@/lib/supabase/db'
+  1 | import { NextResponse } from "next/server"
+  2 | import { createClient } from "@/lib/supabase/server"
+> 3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+  6 | export async function POST(request: Request) {
+
+Import map: aliased to relative './lib/supabase/db' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found
+[00:01:19.322] Browser ERROR   ./app/api/db/candidates/route.ts:2:1
+Module not found: Can't resolve '@/lib/supabase/server'
+  1 | import { NextResponse } from "next/server"
+> 2 | import { createClient } from "@/lib/supabase/server"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { scoredCandidateToDBCandidate, createDBApplication } from "@/lib/supabase/db"
+  4 | import type { ScoredCandidate } from "@/lib/types"
+  5 |
+
+Import map: aliased to relative './lib/supabase/server' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found

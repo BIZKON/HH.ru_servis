@@ -76,12 +76,35 @@ export function formatDate(dateString: string): string {
 }
 
 export function transformResumeToCandidate(resume: HHResume): Candidate {
-  const fullName = [resume.last_name, resume.first_name, resume.middle_name].filter(Boolean).join(" ")
+  // Формируем полное имя из доступных полей
+  // Проверяем наличие хотя бы одного поля имени
+  let fullName: string
+  if (resume.first_name || resume.last_name || resume.middle_name) {
+    const nameParts = [resume.last_name, resume.first_name, resume.middle_name]
+      .filter((part) => part !== null && part !== undefined && part !== "")
+      .map((part) => String(part).trim())
+    fullName = nameParts.join(" ").trim()
+    
+    // Логируем, если имя неполное (для отладки)
+    if (process.env.NODE_ENV === "development" && nameParts.length < 2) {
+      console.log(`[HH API] Partial name for resume ${resume.id}:`, { 
+        last_name: resume.last_name, 
+        first_name: resume.first_name, 
+        middle_name: resume.middle_name 
+      })
+    }
+  } else {
+    // Если имен нет, возможно это резюме без оплаченного доступа
+    fullName = "Имя не указано"
+    if (process.env.NODE_ENV === "development") {
+      console.log(`[HH API] No name data for resume ${resume.id} - may need paid access`)
+    }
+  }
 
   let email: string | undefined
   let phone: string | undefined
 
-  if (resume.contact) {
+  if (resume.contact && Array.isArray(resume.contact)) {
     for (const contact of resume.contact) {
       if (contact.type.id === "email" && typeof contact.value === "string") {
         email = contact.value
@@ -171,6 +194,61 @@ export async function getResumeDetails(token: string, resumeId: string): Promise
   }
 
   return response.json()
+}
+
+/**
+ * Получает полные данные резюме с автоматической оплатой доступа при необходимости
+ * @param token - API токен
+ * @param resumeId - ID резюме
+ * @param autoPay - Автоматически оплачивать доступ, если имен нет (по умолчанию true)
+ * @returns Полные данные резюме
+ */
+export async function getResumeWithAccess(
+  token: string,
+  resumeId: string,
+  autoPay: boolean = true,
+): Promise<HHResume> {
+  try {
+    // Получаем данные резюме
+    let resume = await getResumeDetails(token, resumeId)
+
+    // Проверяем наличие имен
+    const hasName = resume.first_name || resume.last_name || resume.middle_name
+
+    // Если имен нет и включена автоматическая оплата, пытаемся оплатить доступ
+    if (!hasName && autoPay) {
+      try {
+        console.log(`[HH API] No name data for resume ${resumeId}, attempting to pay for access...`)
+        await payResumeAccess(token, resumeId)
+
+        // Небольшая задержка перед повторным запросом
+        await new Promise((resolve) => setTimeout(resolve, 500))
+
+        // Получаем данные снова после оплаты
+        resume = await getResumeDetails(token, resumeId)
+
+        const hasNameAfterPay = resume.first_name || resume.last_name || resume.middle_name
+        if (hasNameAfterPay) {
+          console.log(`[HH API] Successfully obtained name data for resume ${resumeId} after payment`)
+        } else {
+          console.warn(`[HH API] Still no name data for resume ${resumeId} after payment attempt`)
+        }
+      } catch (payError) {
+        // Если оплата не удалась, продолжаем с исходными данными
+        console.warn(
+          `[HH API] Could not pay for resume access ${resumeId}:`,
+          payError instanceof Error ? payError.message : String(payError),
+        )
+        // Возвращаем исходные данные, даже если имен нет
+      }
+    }
+
+    return resume
+  } catch (error) {
+    // Логируем ошибку, но не прерываем процесс
+    console.error(`[HH API] Error getting resume ${resumeId}:`, error instanceof Error ? error.message : String(error))
+    throw error
+  }
 }
 
 export async function sendInvitation(

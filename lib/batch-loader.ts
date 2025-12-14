@@ -9,7 +9,7 @@ export interface BatchProgress {
   total: number
   page: number
   pages: number
-  status: "loading" | "scoring" | "saving" | "done" | "error"
+  status: "loading" | "fetching" | "scoring" | "saving" | "done" | "error"
   message: string
   saved?: number
   searchSessionId?: string
@@ -96,17 +96,132 @@ export async function loadAllResumes(
       await new Promise((resolve) => setTimeout(resolve, 500))
     }
 
-    // Phase 2: Scoring
+    // Phase 2: Fetching full resume data with paid access
+    const resumesToProcess = allResumes.slice(0, maxResults)
+    const enrichedResumes: HHResume[] = []
+    const batchSize = 5 // Обрабатываем по 5 резюме параллельно
+    let enrichedCount = 0
+    let failedCount = 0
+
     onProgress({
-      loaded: allResumes.length,
-      total: allResumes.length,
+      loaded: 0,
+      total: resumesToProcess.length,
+      page: maxPages,
+      pages: maxPages,
+      status: "fetching",
+      message: "Получение полных данных резюме...",
+    })
+
+    console.log("[v0] Fetching full data for", resumesToProcess.length, "resumes")
+    
+    // Подсчитываем, сколько резюме нуждаются в обогащении
+    const needsEnrichmentCount = resumesToProcess.filter(
+      (resume) => !resume.first_name && !resume.last_name && !resume.middle_name
+    ).length
+    
+    console.log(`[v0] Resumes needing enrichment: ${needsEnrichmentCount} out of ${resumesToProcess.length}`)
+
+    // Обрабатываем резюме батчами
+    for (let i = 0; i < resumesToProcess.length; i += batchSize) {
+      const batch = resumesToProcess.slice(i, i + batchSize)
+      
+      // Проверяем, нужны ли полные данные (если имен нет)
+      const needsEnrichment = batch.some(
+        (resume) => !resume.first_name && !resume.last_name && !resume.middle_name
+      )
+
+      if (needsEnrichment) {
+        console.log(`[v0] Enriching batch ${Math.floor(i / batchSize) + 1} (${batch.length} resumes)`)
+
+        // Параллельно получаем полные данные для батча
+        const enrichmentPromises = batch.map(async (resume) => {
+          try {
+            const response = await fetch("/api/resume/enrich", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ resumeId: resume.id }),
+            })
+
+            if (response.ok) {
+              const data = await response.json()
+              return data.raw as HHResume // Возвращаем обогащенные данные
+            } else {
+              const errorText = await response.text()
+              console.warn(`[v0] Failed to enrich resume ${resume.id}:`, errorText)
+              return resume // Возвращаем исходные данные при ошибке
+            }
+          } catch (error) {
+            console.warn(
+              `[v0] Error enriching resume ${resume.id}:`,
+              error instanceof Error ? error.message : String(error),
+            )
+            return resume // Возвращаем исходные данные при ошибке
+          }
+        })
+
+        const enrichedBatch = await Promise.allSettled(enrichmentPromises)
+        
+        // Обрабатываем результаты
+        enrichedBatch.forEach((result, index) => {
+          if (result.status === "fulfilled") {
+            const enrichedResume = result.value
+            // Проверяем, получили ли мы имена после обогащения
+            const hasNameAfter = enrichedResume.first_name || enrichedResume.last_name || enrichedResume.middle_name
+            const hadNameBefore = batch[index].first_name || batch[index].last_name || batch[index].middle_name
+            
+            if (hasNameAfter && !hadNameBefore) {
+              enrichedCount++
+              console.log(`[v0] Successfully enriched resume ${batch[index].id} with name data`)
+            } else if (!hasNameAfter && !hadNameBefore) {
+              failedCount++
+              console.warn(`[v0] Resume ${batch[index].id} still has no name data after enrichment attempt`)
+            }
+            
+            enrichedResumes.push(enrichedResume)
+          } else {
+            failedCount++
+            console.warn(`[v0] Failed to enrich resume ${batch[index].id}:`, result.reason)
+            enrichedResumes.push(batch[index]) // Используем исходные данные
+          }
+        })
+
+        // Небольшая задержка между батчами для rate limiting
+        if (i + batchSize < resumesToProcess.length) {
+          await new Promise((resolve) => setTimeout(resolve, 300))
+        }
+      } else {
+        // Если все резюме в батче уже имеют имена, просто добавляем их
+        enrichedResumes.push(...batch)
+      }
+
+      // Обновляем прогресс
+      onProgress({
+        loaded: Math.min(i + batchSize, resumesToProcess.length),
+        total: resumesToProcess.length,
+        page: maxPages,
+        pages: maxPages,
+        status: "fetching",
+        message: `Получено полных данных: ${Math.min(i + batchSize, resumesToProcess.length)} из ${resumesToProcess.length}...`,
+      })
+    }
+
+    console.log(
+      `[v0] Enrichment complete. Total: ${enrichedResumes.length}, Successfully enriched: ${enrichedCount}, Failed: ${failedCount}`
+    )
+
+    // Phase 3: Scoring
+    onProgress({
+      loaded: enrichedResumes.length,
+      total: enrichedResumes.length,
       page: maxPages,
       pages: maxPages,
       status: "scoring",
       message: "Оценка кандидатов...",
     })
 
-    const scoredCandidates: ScoredCandidate[] = allResumes.slice(0, maxResults).map((resume) => {
+    const scoredCandidates: ScoredCandidate[] = enrichedResumes.map((resume) => {
       const candidate = transformResumeToCandidate(resume)
       const score = scoreCandidate(resume as any, scoringConfig)
       return { ...candidate, ...score }

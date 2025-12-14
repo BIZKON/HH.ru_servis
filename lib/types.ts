@@ -62,9 +62,9 @@ export interface HHResume {
   alternate_url: string
   created_at: string
   updated_at: string
-  first_name: string
-  last_name: string
-  middle_name: string | null
+  first_name?: string
+  last_name?: string
+  middle_name?: string | null
   age: number | null
   gender: {
     id: string

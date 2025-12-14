@@ -1,1 +1,21 @@
 [00:00:01.066] Server  LOG      ✓ Ready in 754ms
+[00:04:25.857] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:04:25.857] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:04:25.857] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","r":"","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765704985522}
+[00:04:28.703] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765704988457}
+[00:04:32.254] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765704992010}
+[00:04:33.548] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765704993309}
+[00:04:43.855] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765705003615}
+[00:04:45.007] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765705004764}
+[00:06:10.566] Server  ERROR   Export API error: SqliteError: NOT NULL constraint failed: exports.candidates_count
+[00:07:07.061] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765705146747}
+[00:07:58.316] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765705198062}
+[00:10:42.275] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/crm color: rgb(120, 120, 120) color: inherit {"dp":"/crm","o":"http://localhost:3000/crm","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765705362018}
+[00:10:59.914] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/dashboard color: rgb(120, 120, 120) color: inherit {"dp":"/dashboard","o":"http://localhost:3000/dashboard","sdkn":"@vercel/analytics/next","sdkv":"1.3.1","sv":"0.1.3","ts":1765705379616}
+[00:21:12.905] Server  LOG      ✓ Compiled in 167ms
+[00:21:36.350] Server  LOG      ✓ Compiled in 101ms
+[00:22:20.557] Server  LOG      ✓ Compiled in 163ms
+[00:22:38.974] Server  LOG      ✓ Compiled in 134ms
+[00:22:48.082] Server  LOG      ✓ Compiled in 99ms
+[00:22:52.102] Server  LOG      ✓ Compiled in 125ms
+[00:22:55.779] Server  LOG      ✓ Compiled in 325ms

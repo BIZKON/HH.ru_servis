@@ -81,22 +81,18 @@ export function transformResumeToCandidate(resume: HHResume): Candidate {
   let email: string | undefined
   let phone: string | undefined
 
-  if (resume.contact && Array.isArray(resume.contact)) {
+  if (resume.contact) {
     for (const contact of resume.contact) {
-      // Обработка email
-      if (contact.type?.id === "email" && typeof contact.value === "string") {
+      if (contact.type.id === "email" && typeof contact.value === "string") {
         email = contact.value
       }
-      // Обработка телефона (может быть cell, phone или другие типы)
+      // Check for both "cell" and "phone" types, and ensure value is not null
       if (
-        (contact.type?.id === "cell" || contact.type?.id === "phone") &&
+        (contact.type.id === "cell" || contact.type.id === "phone") &&
         typeof contact.value === "object" &&
         contact.value !== null
       ) {
-        const phoneValue = contact.value as { country?: string; city?: string; number?: string }
-        if (phoneValue.country && phoneValue.city && phoneValue.number) {
-          phone = `+${phoneValue.country}${phoneValue.city}${phoneValue.number}`
-        }
+        phone = `+${contact.value.country}${contact.value.city}${contact.value.number}`
       }
     }
   }
@@ -134,7 +130,7 @@ export async function searchResumes(
   params: HHSearchParams,
 ): Promise<{ data: HHResume[]; found: number; pages: number; page: number }> {
   const searchParams = buildSearchParams(params)
-  // Добавляем параметр для получения контактов (имя, телефон, email)
+  // Add parameter to request contact information (name, phone, email)
   searchParams.append("with_fields", "contacts")
 
   const response = await fetch(`${HH_API_BASE}/resumes?${searchParams}`, {

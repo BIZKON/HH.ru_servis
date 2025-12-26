@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { searchResumes, transformResumeToCandidate } from "@/lib/hh-api"
+import { searchResumes, transformResumeToCandidate, HH_API_BASE, HH_USER_AGENT } from "@/lib/hh-api"
 import type { HHSearchParams } from "@/lib/types"
 import { getUserFromSession } from "@/lib/auth/session"
 import { getDecryptedToken } from "@/lib/db/queries/tokens"
@@ -31,7 +31,35 @@ export async function POST(request: NextRequest) {
     }
 
     if (!token) {
+      console.error("[API] No token found!")
       return NextResponse.json({ error: "API токен не найден. Пожалуйста, введите токен." }, { status: 400 })
+    }
+
+    // Тестируем токен перед поиском
+    console.log("[API] Testing token validity...")
+    try {
+      const testResponse = await fetch(`${HH_API_BASE}/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "User-Agent": HH_USER_AGENT,
+          "HH-User-Agent": HH_USER_AGENT,
+        },
+      })
+
+      if (!testResponse.ok) {
+        const errorText = await testResponse.text()
+        console.error("[API] Token test failed:", testResponse.status, errorText)
+        return NextResponse.json({
+          error: `Токен HH.ru недействительный или истек. Статус: ${testResponse.status}. ${errorText}`
+        }, { status: 400 })
+      }
+
+      console.log("[API] Token test passed")
+    } catch (testError) {
+      console.error("[API] Token test error:", testError)
+      return NextResponse.json({
+        error: "Не удалось проверить токен HH.ru. Проверьте подключение к интернету."
+      }, { status: 500 })
     }
 
     if (!searchParams.text) {
@@ -69,8 +97,16 @@ export async function POST(request: NextRequest) {
     console.error("[API] Search API error:", error)
     console.error("[API] Error details:", {
       message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined
+      stack: error instanceof Error ? error.stack : undefined,
+      name: error instanceof Error ? error.name : undefined
     })
+
+    // Если это ошибка от HH.ru API, возвращаем ее как есть
+    if (error instanceof Error && (error.message.includes('API Error') || error.message.includes('Unrecognized'))) {
+      console.error("[API] This appears to be an HH.ru API error, returning as-is")
+      return NextResponse.json({ error: error.message }, { status: 400 })
+    }
+
     const message = error instanceof Error ? error.message : "Произошла ошибка при поиске"
     return NextResponse.json({ error: message }, { status: 500 })
   }

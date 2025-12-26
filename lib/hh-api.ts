@@ -1,8 +1,8 @@
 import type { HHSearchParams, HHResume, Candidate, HHVacancy } from "./types"
 
-const HH_API_BASE = "https://api.hh.ru"
+export const HH_API_BASE = "https://api.hh.ru"
 // Format: AppName/Version (email)
-const HH_USER_AGENT = "HH-Candidate-Search/1.0 (hr-search-app@v0.dev)"
+export const HH_USER_AGENT = "HH-Candidate-Search/1.0 (hr-search-app@v0.dev)"
 
 export function formatExperience(months: number | null | undefined): string {
   if (!months) return "Без опыта"

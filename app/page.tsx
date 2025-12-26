@@ -77,7 +77,14 @@ export default function HomePage() {
   })
 
   const performBatchSearch = useCallback(async () => {
-    if (!token || !filters.text.trim()) return
+    console.log("[PAGE] Starting batch search...")
+    console.log("[PAGE] Token state:", token ? `${token.substring(0, 10)}... (${token.length} chars)` : "NO TOKEN")
+    console.log("[PAGE] Filters:", JSON.stringify(filters))
+
+    if (!token || !filters.text.trim()) {
+      console.log("[PAGE] Missing token or search text, aborting")
+      return
+    }
 
     setIsLoading(true)
     setIsBatchMode(true)
@@ -287,8 +294,15 @@ export default function HomePage() {
             <CardTitle className="text-xl">1. API Авторизация</CardTitle>
             <CardDescription>Введите токен для доступа к API HH.ru</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <TokenInput value={token} onChange={setToken} />
+            {error && error.includes("Токен HH.ru недействительный") && (
+              <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm text-red-700">
+                  <strong>Токен истек!</strong> Перейдите по ссылке выше, чтобы получить новый токен доступа к API HH.ru.
+                </p>
+              </div>
+            )}
           </CardContent>
         </Card>
 

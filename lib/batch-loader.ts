@@ -38,12 +38,29 @@ export async function loadAllResumes(
   maxResults = 100,
   vacancyConfig?: VacancyConfig,
 ): Promise<ScoredCandidate[]> {
+  console.log("[BATCH] ===== STARTING BATCH LOAD =====")
+  console.log("[BATCH] Token length:", token ? token.length : 0)
+  console.log("[BATCH] Token preview:", token ? `${token.substring(0, 20)}...` : "NO TOKEN")
+  console.log("[BATCH] Token is valid format:", token ? /^[a-zA-Z0-9]{20,}$/.test(token) : false)
+  console.log("[BATCH] Search params:", JSON.stringify(searchParams))
+  console.log("[BATCH] Max results:", maxResults)
+  console.log("[BATCH] Vacancy config:", vacancyConfig ? "YES" : "NO")
+
   const allResumes: HHResume[] = []
   const maxPages = Math.ceil(maxResults / 20)
 
   console.log("[v0] Starting batch load with autosave:", !!vacancyConfig)
-  console.log("[v0] Token provided:", token ? `${token.substring(0, 10)}...` : "NO TOKEN")
-  console.log("[v0] Search params:", JSON.stringify(searchParams))
+
+  // Проверяем токен перед началом
+  if (!token || token.trim().length === 0) {
+    console.error("[BATCH] ERROR: Token is empty or null!")
+    throw new Error("API токен не указан. Пожалуйста, введите токен HH.ru в поле выше.")
+  }
+
+  if (token.length < 20) {
+    console.error("[BATCH] ERROR: Token seems too short:", token.length, "characters")
+    throw new Error("API токен HH.ru слишком короткий. Проверьте правильность токена.")
+  }
 
   try {
     // Phase 1: Loading pages
@@ -75,14 +92,34 @@ export async function loadAllResumes(
       console.log(`[v0] Search response status: ${response.status}`)
 
       if (!response.ok) {
-        const error = await response.json().catch(() => ({}))
-        console.error("[v0] Search API error:", error)
-        throw new Error(error.error || error.description || `Ошибка загрузки: ${response.status}`)
+        const errorText = await response.text()
+        console.error("[v0] Search API failed with status:", response.status)
+        console.error("[v0] Search API error response:", errorText)
+        console.error("[v0] Request URL:", response.url)
+        console.error("[v0] Response headers:", Object.fromEntries(response.headers.entries()))
+
+        let error
+        try {
+          error = JSON.parse(errorText)
+          console.error("[v0] Parsed JSON error:", error)
+        } catch (parseError) {
+          console.error("[v0] Failed to parse error as JSON:", parseError)
+          error = { error: errorText }
+        }
+
+        // Если это наша ошибка валидации токена, покажем ее как есть
+        if (errorText.includes("Токен HH.ru недействительный") || errorText.includes("API токен не найден")) {
+          throw new Error(errorText)
+        }
+
+        throw new Error(error.error || error.description || `Ошибка загрузки: ${response.status} - ${errorText}`)
       }
 
       const data = await response.json()
+      console.log("[v0] Search API success - found:", data.found, "total, returned:", data.items?.length || 0, "items")
 
       if (!data.items || data.items.length === 0) {
+        console.log("[v0] No more items to load, stopping")
         break
       }
 

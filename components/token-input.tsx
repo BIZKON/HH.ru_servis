@@ -30,38 +30,44 @@ export function TokenInput({ value, onChange }: TokenInputProps) {
             if (data.hasToken) {
               // Токен есть на сервере, но мы не можем его получить для отображения
               // Пользователь должен ввести его заново для безопасности
+              console.log("[TokenInput] Token exists on server for authenticated user")
             }
           }
         } else {
           // Загружаем токен из localStorage для неавторизованного пользователя
           const savedToken = localStorage.getItem("hh_token")
-          if (savedToken) {
+          if (savedToken && savedToken !== value) {
+            console.log("[TokenInput] Loading token from localStorage:", savedToken.substring(0, 10) + "...")
             onChange(savedToken)
           }
         }
       } catch (error) {
-        console.error("Error loading token:", error)
+        console.error("[TokenInput] Error loading token:", error)
         // В случае ошибки пробуем загрузить из localStorage
         const savedToken = localStorage.getItem("hh_token")
-        if (savedToken) {
+        if (savedToken && savedToken !== value) {
+          console.log("[TokenInput] Loading token from localStorage after error:", savedToken.substring(0, 10) + "...")
           onChange(savedToken)
         }
       }
     }
     loadToken()
-  }, [onChange])
+  }, [onChange, value])
 
   const handleChange = async (newValue: string) => {
+    console.log("[TokenInput] handleChange called with value:", newValue ? `${newValue.substring(0, 10)}...` : "EMPTY")
     onChange(newValue)
 
     // Проверяем авторизацию пользователя
     try {
       const authResponse = await fetch("/api/auth/me")
       const isAuthenticated = authResponse.ok
+      console.log("[TokenInput] User authenticated:", isAuthenticated)
 
       if (newValue && newValue.length > 10) {
         if (isAuthenticated) {
           // Сохраняем токен на сервер для авторизованного пользователя
+          console.log("[TokenInput] Saving token to server")
           setIsSaving(true)
           try {
             const response = await fetch("/api/token", {
@@ -72,36 +78,43 @@ export function TokenInput({ value, onChange }: TokenInputProps) {
 
             if (!response.ok) {
               const error = await response.json()
-              console.error("Ошибка сохранения токена на сервер:", error.error)
+              console.error("[TokenInput] Error saving token to server:", error.error)
+            } else {
+              console.log("[TokenInput] Token saved to server successfully")
             }
           } catch (error) {
-            console.error("Ошибка сохранения токена на сервер:", error)
+            console.error("[TokenInput] Error saving token to server:", error)
           } finally {
             setIsSaving(false)
           }
         } else {
           // Сохраняем токен локально для неавторизованного пользователя
+          console.log("[TokenInput] Saving token to localStorage")
           localStorage.setItem("hh_token", newValue)
           setIsSaving(false)
         }
       } else if (!newValue) {
         // Удаляем токен
+        console.log("[TokenInput] Removing token")
         if (isAuthenticated) {
           try {
             await fetch("/api/token", {
               method: "DELETE",
             })
+            console.log("[TokenInput] Token removed from server")
           } catch (error) {
-            console.error("Ошибка удаления токена:", error)
+            console.error("[TokenInput] Error removing token from server:", error)
           }
         } else {
           localStorage.removeItem("hh_token")
+          console.log("[TokenInput] Token removed from localStorage")
         }
       }
     } catch (error) {
-      console.error("Ошибка проверки авторизации:", error)
+      console.error("[TokenInput] Error checking authentication:", error)
       // В случае ошибки сохраняем локально
       if (newValue && newValue.length > 10) {
+        console.log("[TokenInput] Saving token to localStorage due to error")
         localStorage.setItem("hh_token", newValue)
       } else if (!newValue) {
         localStorage.removeItem("hh_token")
@@ -121,9 +134,9 @@ export function TokenInput({ value, onChange }: TokenInputProps) {
           href="https://dev.hh.ru/admin"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-1 text-xs text-red-600 hover:text-red-700 transition-colors font-medium"
         >
-          Получить токен
+          ⚠️ Токен истек - получить новый
           <ExternalLink className="h-3 w-3" />
         </a>
       </div>

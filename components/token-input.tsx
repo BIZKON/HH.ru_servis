@@ -17,54 +17,96 @@ export function TokenInput({ value, onChange }: TokenInputProps) {
 
   // Проверяем наличие токена при загрузке
   useEffect(() => {
-    const checkToken = async () => {
+    const loadToken = async () => {
       try {
-        const response = await fetch("/api/token")
-        if (response.ok) {
-          const data = await response.json()
-          if (data.hasToken) {
-            // Токен есть, но мы не можем его получить (безопасность)
-            // Пользователь должен ввести его заново или он уже используется на сервере
+        const authResponse = await fetch("/api/auth/me")
+        const isAuthenticated = authResponse.ok
+
+        if (isAuthenticated) {
+          // Загружаем токен с сервера для авторизованного пользователя
+          const response = await fetch("/api/token")
+          if (response.ok) {
+            const data = await response.json()
+            if (data.hasToken) {
+              // Токен есть на сервере, но мы не можем его получить для отображения
+              // Пользователь должен ввести его заново для безопасности
+            }
+          }
+        } else {
+          // Загружаем токен из localStorage для неавторизованного пользователя
+          const savedToken = localStorage.getItem("hh_token")
+          if (savedToken) {
+            onChange(savedToken)
           }
         }
       } catch (error) {
-        console.error("Error checking token:", error)
+        console.error("Error loading token:", error)
+        // В случае ошибки пробуем загрузить из localStorage
+        const savedToken = localStorage.getItem("hh_token")
+        if (savedToken) {
+          onChange(savedToken)
+        }
       }
     }
-    checkToken()
-  }, [])
+    loadToken()
+  }, [onChange])
 
   const handleChange = async (newValue: string) => {
     onChange(newValue)
 
-    // Сохраняем токен на сервер при изменении
-    if (newValue && newValue.length > 10) {
-      setIsSaving(true)
-      try {
-        const response = await fetch("/api/token", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: newValue }),
-        })
+    // Проверяем авторизацию пользователя
+    try {
+      const authResponse = await fetch("/api/auth/me")
+      const isAuthenticated = authResponse.ok
 
-        if (!response.ok) {
-          const error = await response.json()
-          console.error("Ошибка сохранения токена:", error.error)
+      if (newValue && newValue.length > 10) {
+        if (isAuthenticated) {
+          // Сохраняем токен на сервер для авторизованного пользователя
+          setIsSaving(true)
+          try {
+            const response = await fetch("/api/token", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ token: newValue }),
+            })
+
+            if (!response.ok) {
+              const error = await response.json()
+              console.error("Ошибка сохранения токена на сервер:", error.error)
+            }
+          } catch (error) {
+            console.error("Ошибка сохранения токена на сервер:", error)
+          } finally {
+            setIsSaving(false)
+          }
+        } else {
+          // Сохраняем токен локально для неавторизованного пользователя
+          localStorage.setItem("hh_token", newValue)
+          setIsSaving(false)
         }
-      } catch (error) {
-        console.error("Ошибка сохранения токена:", error)
-      } finally {
-        setIsSaving(false)
+      } else if (!newValue) {
+        // Удаляем токен
+        if (isAuthenticated) {
+          try {
+            await fetch("/api/token", {
+              method: "DELETE",
+            })
+          } catch (error) {
+            console.error("Ошибка удаления токена:", error)
+          }
+        } else {
+          localStorage.removeItem("hh_token")
+        }
       }
-    } else if (!newValue) {
-      // Удаляем токен если поле очищено
-      try {
-        await fetch("/api/token", {
-          method: "DELETE",
-        })
-      } catch (error) {
-        console.error("Ошибка удаления токена:", error)
+    } catch (error) {
+      console.error("Ошибка проверки авторизации:", error)
+      // В случае ошибки сохраняем локально
+      if (newValue && newValue.length > 10) {
+        localStorage.setItem("hh_token", newValue)
+      } else if (!newValue) {
+        localStorage.removeItem("hh_token")
       }
+      setIsSaving(false)
     }
   }
 

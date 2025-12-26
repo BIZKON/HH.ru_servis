@@ -5,23 +5,26 @@ import { getDecryptedToken } from "@/lib/db/queries/tokens"
 
 export async function POST(request: NextRequest) {
   try {
-    // Получаем пользователя
+    // Получаем пользователя (для авторизованных пользователей)
     const user = await getUserFromSession()
-    if (!user) {
-      return NextResponse.json({ error: "Не авторизован" }, { status: 401 })
-    }
-
-    // Получаем токен из БД
-    const token = await getDecryptedToken(user.id)
-    if (!token) {
-      return NextResponse.json({ error: "API токен не найден" }, { status: 400 })
-    }
 
     const body = await request.json()
-    const { resumeId } = body as { resumeId: string }
+    const { resumeId, token: providedToken } = body as { resumeId: string; token?: string }
 
     if (!resumeId) {
       return NextResponse.json({ error: "ID резюме обязателен" }, { status: 400 })
+    }
+
+    // Определяем токен: из запроса или из БД (для авторизованных пользователей)
+    let token: string | null = providedToken || null
+
+    if (!token && user) {
+      // Для авторизованного пользователя берем токен из БД
+      token = await getDecryptedToken(user.id)
+    }
+
+    if (!token) {
+      return NextResponse.json({ error: "API токен не найден" }, { status: 400 })
     }
 
     // Получаем полные данные резюме с автоматической оплатой доступа
@@ -35,4 +38,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }
+
 

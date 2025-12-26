@@ -141,7 +141,10 @@ export async function loadAllResumes(
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ resumeId: resume.id }),
+              body: JSON.stringify({
+                resumeId: resume.id,
+                token: token // Передаем токен HH.ru в запрос
+              }),
             })
 
             if (response.ok) {
